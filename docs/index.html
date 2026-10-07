@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Opportunity Radar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a deadline rail up top (the 90 days ahead), then a single scannable feed with filters. */
+:root{
+  --bg:#f2f5f1; --surface:#ffffff; --fg:#14201a; --muted:#5d6b63; --line:#dbe3dc;
+  --accent:#0b7a55; --accent-soft:#e2f2ea; --warn:#c2410c; --warn-soft:#fdeee4;
+  --c-sch:#0b7a55; --c-conf:#6b4fd8; --c-pap:#0f6fae; --c-art:#a3620a;
+  --display:"Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+  --body:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0e1512; --surface:#151e1a; --fg:#e3ebe6; --muted:#93a39a; --line:#26332d;
+  --accent:#3fd39a; --accent-soft:#143327; --warn:#fb8b4d; --warn-soft:#3a2214;
+  --c-sch:#3fd39a; --c-conf:#a993ff; --c-pap:#5bb4f0; --c-art:#e8a948; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1512; --surface:#151e1a; --fg:#e3ebe6; --muted:#93a39a; --line:#26332d;
+  --accent:#3fd39a; --accent-soft:#143327; --warn:#fb8b4d; --warn-soft:#3a2214;
+  --c-sch:#3fd39a; --c-conf:#a993ff; --c-pap:#5bb4f0; --c-art:#e8a948; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 var(--body)}
+.wrap{max-width:1040px;margin:0 auto;padding-inline:16px;padding-block:20px 72px}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-block:4px 18px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand svg{flex:none}
+.brand h1{font:700 22px/1 var(--display);letter-spacing:-.01em;margin:0}
+.brand small{display:block;color:var(--muted);font:12px/1.4 var(--mono);margin-top:4px}
+.tg{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;background:var(--accent);color:var(--bg);text-decoration:none;font-weight:600;font-size:14px}
+.tg.off{background:transparent;color:var(--muted);border:1px dashed var(--line);font-weight:500}
+
+.note{background:var(--warn-soft);color:var(--warn);border-radius:8px;padding:8px 12px;font-size:13px;margin-bottom:16px}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:22px}
+.stat{background:var(--surface);padding:14px 16px}
+.stat b{display:block;font:700 28px/1.1 var(--display);font-variant-numeric:tabular-nums}
+.stat span{color:var(--muted);font-size:12.5px}
+.stat.hot b{color:var(--warn)}
+@media (max-width:640px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* deadline rail */
+.rail-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px 14px;margin-bottom:26px}
+.rail-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.rail-head h2{font:600 16px/1.2 var(--display);margin:0}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.legend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.rail{position:relative;height:56px;margin:0 8px}
+.rail .track{position:absolute;left:0;right:0;top:22px;height:2px;background:var(--line)}
+.rail .soon{position:absolute;left:0;top:18px;height:10px;background:var(--warn-soft);border-radius:5px}
+.rail .tick{position:absolute;top:34px;transform:translateX(-50%);font:11px var(--mono);color:var(--muted);white-space:nowrap}
+.rail .tick::before{content:"";position:absolute;left:50%;top:-14px;width:1px;height:8px;background:var(--line)}
+.rail .dot{position:absolute;top:15px;width:16px;height:16px;margin-left:-8px;border-radius:50%;border:3px solid var(--surface);cursor:pointer;padding:0}
+.rail .dot:hover{transform:scale(1.25)}
+.next{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;margin-top:6px}
+.next button{all:unset;cursor:pointer;display:flex;gap:10px;align-items:baseline;padding:6px 8px;border-radius:6px;min-width:0}
+.next button:hover{background:var(--accent-soft)}
+.next .d{font:500 12px var(--mono);color:var(--warn);flex:none;width:34px}
+.next .t{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+
+/* controls */
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.tab{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--surface);color:var(--fg);padding:6px 13px;border-radius:999px;cursor:pointer}
+.tab .n{font:12px var(--mono);color:var(--muted);margin-left:6px}
+.tab[aria-pressed="true"]{background:var(--fg);border-color:var(--fg);color:var(--bg)}
+.tab[aria-pressed="true"] .n{color:var(--bg);opacity:.7}
+.bar{display:flex;gap:10px 16px;flex-wrap:wrap;align-items:center;margin-bottom:16px;font-size:14px;color:var(--muted)}
+.bar input[type=search]{flex:1 1 220px;min-width:0;font:inherit;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg)}
+.bar select{font:inherit;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg)}
+.bar label{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.bar input[type=range]{accent-color:var(--accent);width:100px}
+#minv{font-family:var(--mono);color:var(--fg);width:1.2em}
+
+/* feed */
+.feed{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:4px minmax(0,1fr) auto;gap:14px;padding:14px 4px;border-bottom:1px solid var(--line);transition:background .4s}
+.row.flash{background:var(--accent-soft)}
+.stripe{border-radius:2px}
+.row h3{margin:0;font:600 15.5px/1.35 var(--body);text-wrap:balance}
+.row h3 a{text-decoration:none}
+.row h3 a:hover{color:var(--accent);text-decoration:underline}
+.row p{margin:4px 0 0;color:var(--muted);font-size:14px;max-width:72ch}
+.tags{display:flex;gap:6px 10px;flex-wrap:wrap;margin-top:8px;font-size:12px;color:var(--muted);align-items:center}
+.chip{font-weight:600;padding:1px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent)}
+.score{font:500 12px var(--mono)}
+.side{display:flex;flex-direction:column;align-items:flex-end;gap:8px;text-align:right}
+.left{font:500 13px/1.2 var(--mono);color:var(--muted);white-space:nowrap}
+.left b{display:block;font:700 20px/1 var(--display);color:var(--fg)}
+.left.hot,.left.hot b{color:var(--warn)}
+.save{font:inherit;font-size:12px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:6px;padding:3px 8px;cursor:pointer}
+.save[aria-pressed="true"]{border-color:var(--accent);color:var(--accent)}
+.empty{color:var(--muted);text-align:center;padding:48px 16px}
+footer{margin-top:36px;color:var(--muted);font-size:12.5px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="15" fill="none" stroke="var(--line)" stroke-width="2"/><circle cx="17" cy="17" r="9" fill="none" stroke="var(--line)" stroke-width="2"/><path d="M17 17 L17 2 A15 15 0 0 1 30 10 Z" fill="var(--accent)" opacity=".85"/><circle cx="24" cy="12" r="2.2" fill="var(--warn)"/></svg>
+      <div><h1>Opportunity Radar</h1><small id="upd">Loading…</small></div>
+    </div>
+    <a class="tg off" id="tg" href="#">Telegram alerts</a>
+  </header>
+
+  <div class="note" id="note" hidden></div>
+
+  <section class="stats" aria-label="Summary">
+    <div class="stat"><b id="s-new">0</b><span>new in the last 3 days</span></div>
+    <div class="stat"><b id="s-ff">0</b><span>fully funded, still open</span></div>
+    <div class="stat hot"><b id="s-soon">0</b><span>deadlines in 14 days</span></div>
+    <div class="stat"><b id="s-saved">0</b><span>saved by you</span></div>
+  </section>
+
+  <section class="rail-card" aria-label="Upcoming deadlines">
+    <div class="rail-head">
+      <h2>Next 90 days of deadlines</h2>
+      <div class="legend"><span><i style="background:var(--c-sch)"></i>Scholarship</span><span><i style="background:var(--c-conf)"></i>Conference</span><span><i style="background:var(--c-pap)"></i>Paper</span><span><i style="background:var(--c-art)"></i>Article</span></div>
+    </div>
+    <div class="rail" id="rail"></div>
+    <div class="next" id="next"></div>
+  </section>
+
+  <div class="tabs" id="tabs" role="group" aria-label="Category"></div>
+  <div class="bar">
+    <input type="search" id="q" placeholder="Search: masters, Germany, YOLO, CVPR…" aria-label="Search">
+    <select id="sort" aria-label="Sort"><option value="score">Best match</option><option value="new">Newest</option><option value="deadline">Deadline soonest</option></select>
+    <label for="min">Min score <input type="range" id="min" min="0" max="10" value="5"><span id="minv">5</span></label>
+    <label for="ff"><input type="checkbox" id="ff"> Fully funded only</label>
+  </div>
+  <div class="feed" id="feed"></div>
+  <footer>Scores (0–10) are the AI's estimate of how well each item fits your profile. Always confirm eligibility and deadlines on the official page. Conference deadlines are usually Anywhere on Earth (AoE, UTC−12).</footer>
+</div>
+
+<script type="application/json" id="seed">null</script>
+<script>
+const CATS={all:"All",saved:"Saved",scholarships:"Scholarships",conferences:"Conferences",papers:"Papers",articles:"Articles"};
+const COL={scholarships:"var(--c-sch)",conferences:"var(--c-conf)",papers:"var(--c-pap)",articles:"var(--c-art)"};
+const LBL={scholarships:"Scholarship",conferences:"Conference",papers:"Paper",articles:"Article"};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const today=new Date(new Date().toISOString().slice(0,10));
+const daysTo=d=>Math.round((new Date(d)-today)/864e5);
+let items=[],cat="all",saved=new Set();
+try{saved=new Set(JSON.parse(localStorage.getItem("radar-saved")||"[]"))}catch(e){}
+try{cat=localStorage.getItem("radar-tab")||"all"}catch(e){}
+const persist=()=>{try{localStorage.setItem("radar-saved",JSON.stringify([...saved]));localStorage.setItem("radar-tab",cat)}catch(e){}};
+const open=i=>!(i.deadline&&daysTo(i.deadline)<0);
+
+function stats(){
+  const recent=Date.now()-3*864e5;
+  $("s-new").textContent=items.filter(i=>new Date(i.first_seen)>recent).length;
+  $("s-ff").textContent=items.filter(i=>i.fully_funded&&open(i)).length;
+  $("s-soon").textContent=items.filter(i=>i.deadline&&daysTo(i.deadline)>=0&&daysTo(i.deadline)<=14).length;
+  $("s-saved").textContent=items.filter(i=>saved.has(i.id)).length;
+}
+function rail(){
+  const up=items.filter(i=>i.deadline&&daysTo(i.deadline)>=0&&daysTo(i.deadline)<=90&&i.score>=4).sort((a,b)=>a.deadline.localeCompare(b.deadline));
+  const pct=d=>Math.min(100,d/90*100);
+  let h='<div class="track"></div><div class="soon" style="width:'+pct(14)+'%"></div>';
+  [0,14,30,60,90].forEach(d=>{const dt=new Date(+today+d*864e5);h+=`<span class="tick" style="left:${pct(d)}%">${d===0?"Today":dt.toLocaleDateString(undefined,{day:"numeric",month:"short"})}</span>`});
+  up.forEach(i=>{h+=`<button class="dot" style="left:${pct(daysTo(i.deadline))}%;background:${COL[i.category]}" data-id="${i.id}" title="${esc(i.title)} · ${i.deadline}" aria-label="${esc(i.title)}, due ${i.deadline}"></button>`});
+  $("rail").innerHTML=h;
+  $("next").innerHTML=up.slice(0,6).map(i=>`<button data-id="${i.id}"><span class="d">${daysTo(i.deadline)}d</span><span class="t">${esc(i.title)}</span></button>`).join("")||'<span style="color:var(--muted);font-size:13px">No deadlines in the next 90 days.</span>';
+}
+function feed(){
+  const q=$("q").value.toLowerCase(),min=+$("min").value,ff=$("ff").checked;$("minv").textContent=min;
+  let v=items.filter(i=>(cat==="all"||(cat==="saved"?saved.has(i.id):i.category===cat))
+    &&(cat==="saved"||i.score>=min)&&(!ff||i.fully_funded)&&open(i)
+    &&(!q||(i.title+" "+(i.summary||"")+" "+i.source).toLowerCase().includes(q)));
+  const s=$("sort").value;
+  v.sort(s==="new"?(a,b)=>b.first_seen.localeCompare(a.first_seen)
+    :s==="deadline"?(a,b)=>(a.deadline||"9999").localeCompare(b.deadline||"9999")
+    :(a,b)=>b.score-a.score||b.first_seen.localeCompare(a.first_seen));
+  $("tabs").innerHTML=Object.entries(CATS).map(([k,l])=>{
+    const n=k==="all"?items.filter(open).length:k==="saved"?saved.size:items.filter(i=>i.category===k&&open(i)).length;
+    return `<button class="tab" aria-pressed="${k===cat}" data-c="${k}">${l}<span class="n">${n}</span></button>`}).join("");
+  $("feed").innerHTML=v.length?v.slice(0,300).map(i=>{
+    const d=i.deadline?daysTo(i.deadline):null;
+    return `<article class="row" id="r-${i.id}"><div class="stripe" style="background:${COL[i.category]}"></div>
+      <div style="min-width:0"><h3><a href="${esc(i.url)}" target="_blank" rel="noopener">${esc(i.title)}</a></h3>
+      <p>${esc(i.summary)}</p>
+      <div class="tags"><span style="color:${COL[i.category]};font-weight:600">${LBL[i.category]}</span>
+      ${i.fully_funded?'<span class="chip">Fully funded</span>':""}
+      <span class="score">fit ${i.score}/10</span><span>${esc(i.source)}</span>
+      ${i.deadline?`<span>due ${i.deadline}</span>`:""}</div></div>
+      <div class="side">${d!==null?`<div class="left ${d<=14?"hot":""}"><b>${d}</b>days left</div>`:""}
+      <button class="save" data-save="${i.id}" aria-pressed="${saved.has(i.id)}">${saved.has(i.id)?"Saved":"Save"}</button></div></article>`}).join("")
+    :`<div class="empty">${cat==="saved"?"Nothing saved yet. Tap Save on any item to keep it here.":"Nothing matches these filters. Try lowering the minimum score."}</div>`;
+}
+function render(){stats();rail();feed()}
+function jump(id){
+  cat="all";$("q").value="";$("min").value=0;$("ff").checked=false;feed();
+  const r=$("r-"+id);if(r){r.scrollIntoView({behavior:"smooth",block:"center"});r.classList.add("flash");setTimeout(()=>r.classList.remove("flash"),1600)}
+}
+$("tabs").onclick=e=>{const b=e.target.closest(".tab");if(b){cat=b.dataset.c;persist();feed()}};
+$("feed").onclick=e=>{const b=e.target.closest("[data-save]");if(!b)return;const id=b.dataset.save;saved.has(id)?saved.delete(id):saved.add(id);persist();stats();feed()};
+$("rail").onclick=$("next").onclick=e=>{const b=e.target.closest("[data-id]");if(b)jump(b.dataset.id)};
+["q","sort","min","ff"].forEach(id=>$(id).oninput=feed);
+
+function load(d,isSeed){
+  items=(d.items||[]).filter(i=>i.category in COL);
+  const site=d.site||{};
+  if(site.telegram){const t=$("tg");t.href=site.telegram;t.target="_blank";t.rel="noopener";t.classList.remove("off");t.textContent="Open Telegram alerts"}
+  else{$("tg").textContent="Telegram: add link in config.yaml";$("tg").removeAttribute("href")}
+  $("upd").textContent=d.updated?`Updated ${new Date(d.updated).toLocaleString(undefined,{dateStyle:"medium",timeStyle:"short"})} · ${items.length} items`:"Waiting for the first run";
+  if(isSeed){$("note").hidden=false;$("note").textContent="Preview: a real snapshot of listings collected "+new Date(d.updated).toLocaleDateString(undefined,{dateStyle:"long"})+". Your live site refreshes twice a day."}
+  render();
+}
+const seed=JSON.parse($("seed").textContent);
+fetch("items.json?"+Date.now()).then(r=>{if(!r.ok)throw 0;return r.json()}).then(d=>load(d,false))
+  .catch(()=>{if(seed)load(seed,true);else{$("upd").textContent="No data yet";$("feed").innerHTML='<div class="empty">No data yet. Run the GitHub Action once (Actions → Opportunity Radar → Run workflow).</div>';stats();rail()}});
+</script>
+</body>
+</html>

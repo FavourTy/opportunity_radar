@@ -1,0 +1,57 @@
+# Opportunity Radar — edit this file to change what you track.
+
+profile: >
+  Nigerian (Lagos) Mechatronics Engineering graduate (FUTA, CGPA 3.5/5.0, second class upper),
+  working as a Flutter mobile engineer, transitioning into AI and computer vision.
+  Wants FULLY FUNDED Masters scholarships in AI / computer vision / robotics / data science
+  open to Nigerians or Africans, CV/AI conferences (especially with travel grants or
+  student/Africa-friendly participation), and research bridging mobile apps, edge AI,
+  computer vision and smart systems that solve real-world problems.
+
+site:
+  # Link for the "Open Telegram alerts" button on the website, e.g. https://t.me/YourRadarBot
+  # (or your channel link https://t.me/yourchannel). Leave empty to hide it.
+  telegram_link: ""
+
+# Minimum LLM relevance score (0-10) for an item to be sent to Telegram.
+min_score: 6
+# Max items per Telegram digest
+max_per_digest: 15
+# Days to keep items on the dashboard
+keep_days: 60
+
+sources:
+  scholarships:
+    - {name: Opportunities for Africans, type: rss, url: "https://www.opportunitiesforafricans.com/feed/"}
+    - {name: Opportunity Desk, type: rss, url: "https://opportunitydesk.org/feed/"}
+    - {name: Scholars4Dev, type: rss, url: "https://www.scholars4dev.com/feed/"}
+    - {name: After School Africa, type: rss, url: "https://www.afterschoolafrica.com/feed/"}
+    - {name: Youth Opportunities, type: rss, url: "https://www.youthop.com/feed"}
+  conferences:
+    - {name: WikiCFP Computer Vision, type: rss, url: "http://www.wikicfp.com/cfp/rss?cat=computer%20vision"}
+    - {name: WikiCFP Machine Learning, type: rss, url: "http://www.wikicfp.com/cfp/rss?cat=machine%20learning"}
+    - {name: WikiCFP Robotics, type: rss, url: "http://www.wikicfp.com/cfp/rss?cat=robotics"}
+    - {name: AI Deadlines (HF), type: ai_deadlines,
+       url: "https://api.github.com/repos/huggingface/ai-deadlines/contents/src/data/conferences",
+       tags: ["computer vision", "machine learning", "robotics"]}
+  papers:
+    - {name: arXiv cs.CV, type: arxiv, query: "cat:cs.CV", max: 40}
+    - {name: arXiv edge/mobile CV, type: arxiv,
+       query: "(cat:cs.CV OR cat:cs.LG) AND (abs:mobile OR abs:edge OR abs:on-device OR abs:smartphone)", max: 20}
+    - {name: Hugging Face Daily Papers, type: hf_daily, url: "https://huggingface.co/api/daily_papers?limit=50"}
+  articles:
+    - {name: LearnOpenCV, type: rss, url: "https://learnopencv.com/feed/"}
+    - {name: PyImageSearch, type: rss, url: "https://pyimagesearch.com/feed/"}
+    - {name: Roboflow Blog, type: rss, url: "https://blog.roboflow.com/rss/"}
+    - {name: Google Research, type: rss, url: "https://research.google/blog/rss/"}
+
+# Cheap pre-filter before the LLM (case-insensitive). Items in a category must
+# match at least one keyword, or they are dropped. Leave a list empty to keep all.
+keywords:
+  scholarships: [scholarship, fellowship, masters, "master's", msc, postgraduate, graduate,
+                 "fully funded", funded, stipend, phd, research grant, daad, chevening,
+                 commonwealth, erasmus, mext, kaist, mastercard, "ai ", artificial intelligence,
+                 data science, engineering, robotics, computer]
+  conferences: []
+  papers: []
+  articles: []
