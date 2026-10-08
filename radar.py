@@ -1,8 +1,9 @@
+
 #!/usr/bin/env python3
 """Opportunity Radar: collects scholarships, conferences, AI/CV papers and articles,
 scores and summarizes them with an LLM, sends a Telegram digest, and writes
 docs/items.json for the web dashboard.
-
+ 
 Env vars (set as GitHub Actions secrets):
   TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID      -> Telegram delivery (optional)
   GEMINI_API_KEY  or  ANTHROPIC_API_KEY     -> LLM summaries (optional; keyword fallback)
@@ -15,43 +16,43 @@ Flags:
 import argparse, datetime as dt, hashlib, html, json, os, re, sys, time
 from pathlib import Path
 from urllib.parse import quote
-
+ 
 import feedparser, requests, yaml
-
+ 
 ROOT = Path(__file__).parent
 DATA = ROOT / "docs" / "items.json"
 UA = {"User-Agent": "OpportunityRadar/1.0 (+personal digest bot)"}
 NOW = dt.datetime.now(dt.timezone.utc)
 TODAY = NOW.date()
-
-
+ 
+ 
 def log(*a):
     print(*a, file=sys.stderr, flush=True)
-
-
+ 
+ 
 def uid(*parts):
     return hashlib.sha1("|".join(p or "" for p in parts).encode()).hexdigest()[:16]
-
-
+ 
+ 
 def clean(text, n=600):
     text = re.sub(r"<[^>]+>", " ", text or "")
     text = html.unescape(re.sub(r"\s+", " ", text)).strip()
     return text[:n]
-
-
+ 
+ 
 def iso(struct):
     try:
         return dt.datetime(*struct[:6], tzinfo=dt.timezone.utc).isoformat()
     except Exception:
         return NOW.isoformat()
-
-
+ 
+ 
 def get(url, **kw):
     r = requests.get(url, headers={**UA, **kw.pop("headers", {})}, timeout=30, **kw)
     r.raise_for_status()
     return r
-
-
+ 
+ 
 # ---------------------------------------------------------------- sources
 def src_rss(s, cat):
     feed = feedparser.parse(get(s["url"]).content)
@@ -63,8 +64,8 @@ def src_rss(s, cat):
                         published=iso(e.get("published_parsed") or e.get("updated_parsed") or NOW.timetuple()),
                         raw=clean(e.get("summary") or e.get("description"))))
     return out
-
-
+ 
+ 
 def src_arxiv(s, cat):
     url = ("https://export.arxiv.org/api/query?search_query=" + quote(s["query"]) +
            f"&sortBy=submittedDate&sortOrder=descending&max_results={s.get('max', 30)}")
@@ -78,8 +79,8 @@ def src_arxiv(s, cat):
                         published=iso(e.get("published_parsed") or NOW.timetuple()),
                         raw=clean(e.get("summary"))))
     return out
-
-
+ 
+ 
 def src_hf_daily(s, cat):
     out = []
     for row in get(s["url"]).json():
@@ -94,14 +95,14 @@ def src_hf_daily(s, cat):
                         raw=clean(p.get("summary") or row.get("summary")),
                         upvotes=p.get("upvotes", 0)))
     return out
-
-
+ 
+ 
 def _parse_deadline(d):
     s = str(d.get("date") or d.get("deadline") or "")
     m = re.match(r"(\d{4}-\d{2}-\d{2})", s)
     return m.group(1) if m else None
-
-
+ 
+ 
 def src_ai_deadlines(s, cat):
     hdr = {"Authorization": f"Bearer {os.environ['GITHUB_TOKEN']}"} if os.getenv("GITHUB_TOKEN") else {}
     files = [f for f in get(s["url"], headers=hdr).json() if f.get("name", "").endswith((".yml", ".yaml"))]
@@ -130,11 +131,11 @@ def src_ai_deadlines(s, cat):
                             raw=clean(f"{c.get('full_name', '')}. {nxt[1]}: {nxt[0]}. "
                                       f"Conference: {c.get('date', '')} {where}. Tags: {', '.join(sorted(tags))}. {c.get('note', '')}")))
     return out
-
-
+ 
+ 
 SOURCES = {"rss": src_rss, "arxiv": src_arxiv, "hf_daily": src_hf_daily, "ai_deadlines": src_ai_deadlines}
-
-
+ 
+ 
 def collect(cfg):
     items = []
     for cat, srcs in cfg["sources"].items():
@@ -151,12 +152,12 @@ def collect(cfg):
             items += got
             time.sleep(1)  # be polite (arXiv asks for this)
     return items
-
-
+ 
+ 
 # ---------------------------------------------------------------- LLM
 PROMPT = """You screen opportunities and research for this person:
 {profile}
-
+ 
 For EACH item below return a JSON object with:
   "id": same id,
   "score": 0-10 relevance/value for this person. Scholarships: high only if FULLY funded
@@ -168,11 +169,11 @@ For EACH item below return a JSON object with:
   "fully_funded": true/false/null (scholarships only, else null),
   "deadline": "YYYY-MM-DD" if a deadline is stated, else null.
 Return ONLY a JSON array.
-
+ 
 ITEMS:
 {items}"""
-
-
+ 
+ 
 def _call_llm(text):
     model = os.getenv("LLM_MODEL")
     if os.getenv("GEMINI_API_KEY"):
@@ -194,23 +195,23 @@ def _call_llm(text):
         r.raise_for_status()
         return "".join(b.get("text", "") for b in r.json()["content"])
     return None
-
-
+ 
+ 
 def _json_array(s):
     m = re.search(r"\[.*\]", s, re.S)
     return json.loads(m.group(0)) if m else []
-
-
+ 
+ 
 KW_HI = ["fully funded", "computer vision", "masters", "msc", "scholarship", "object detection",
          "segmentation", "edge", "mobile", "on-device", "robot", "yolo", "opencv", "cvpr", "iccv",
          "eccv", "neurips", "africa", "nigeria", "deep learning"]
-
-
+ 
+ 
 def keyword_score(i):
     t = (i["title"] + " " + i["raw"]).lower()
     return min(10, 3 + sum(k in t for k in KW_HI))
-
-
+ 
+ 
 def score(items, cfg, use_llm=True):
     pending = [i for i in items if "score" not in i]
     if not pending:
@@ -239,14 +240,14 @@ def score(items, cfg, use_llm=True):
                 i.setdefault("deadline", None)
                 i["fully_funded"] = ("fully funded" in (i["title"] + i["raw"]).lower()) if i["category"] == "scholarships" else None
         time.sleep(2)
-
-
+ 
+ 
 # ---------------------------------------------------------------- Telegram
 ICON = {"scholarships": "🎓", "conferences": "🗓", "papers": "📄", "articles": "📰"}
 LABEL = {"scholarships": "Scholarships", "conferences": "Conferences & CFPs",
          "papers": "AI / CV Papers", "articles": "Articles & Tutorials"}
-
-
+ 
+ 
 def build_digest(new, closing):
     e = html.escape
     lines = [f"<b>📡 Opportunity Radar — {TODAY:%a %d %b %Y}</b>"]
@@ -264,12 +265,12 @@ def build_digest(new, closing):
             dl = f" · ⏳ {i['deadline']}" if i.get("deadline") else ""
             lines.append(f'• <a href="{e(i["url"])}">{e(i["title"])}</a> ({i["score"]}/10{dl}){tag}\n  <i>{e(i.get("summary", ""))}</i>')
     return "\n".join(lines)
-
-
+ 
+ 
 def send_telegram(text):
     tok, chat = os.getenv("TELEGRAM_BOT_TOKEN"), os.getenv("TELEGRAM_CHAT_ID")
     if not (tok and chat):
-        log("Telegram not configured; skipping send.")
+        log("! Telegram secrets missing: TELEGRAM_BOT_TOKEN and/or TELEGRAM_CHAT_ID are empty.")
         return False
     chunks, cur = [], ""
     for line in text.split("\n"):
@@ -285,19 +286,19 @@ def send_telegram(text):
             log("! Telegram:", r.text)
             return False
     return True
-
-
+ 
+ 
 # ---------------------------------------------------------------- main
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--no-llm", action="store_true")
     a = ap.parse_args()
-
+ 
     cfg = yaml.safe_load((ROOT / "config.yaml").read_text())
     store = json.loads(DATA.read_text())["items"] if DATA.exists() else []
     known = {i["id"] for i in store}
-
+ 
     log("Collecting…")
     fresh = [i for i in collect(cfg) if i["id"] not in known]
     seen = set()
@@ -307,19 +308,19 @@ def main():
     log(f"{len(fresh)} new items; scoring…")
     score(fresh, cfg, use_llm=not a.no_llm)
     store = fresh + store
-
+ 
     cutoff = (NOW - dt.timedelta(days=cfg.get("keep_days", 60))).isoformat()
     store = [i for i in store if i["first_seen"] >= cutoff or (i.get("deadline") or "") >= TODAY.isoformat()]
-
+ 
     to_send = sorted((i for i in store if not i.get("sent") and i["score"] >= cfg["min_score"]),
                      key=lambda i: -i["score"])[:cfg["max_per_digest"]]
     soon = (TODAY + dt.timedelta(days=14)).isoformat()
     closing = [i for i in store if i.get("sent") and not i.get("reminded") and i["category"] == "scholarships"
                and i.get("deadline") and TODAY.isoformat() <= i["deadline"] <= soon]
-
+ 
+    ok = True
     if to_send or closing:
         digest = build_digest(to_send, closing)
-        ok = True
         if a.dry_run:
             print(digest)
         else:
@@ -329,14 +330,26 @@ def main():
             for i in closing: i["reminded"] = True
     else:
         log("Nothing new above threshold.")
-
+        # Heartbeat so a quiet run never looks like a broken bot.
+        if cfg.get("heartbeat", True):
+            note = (f"📡 <b>Radar checked in</b> — {len(fresh)} new items reviewed, none scored "
+                    f"{cfg['min_score']}/10 or higher this time. Everything is on your dashboard.")
+            if a.dry_run:
+                print(note)
+            else:
+                ok = send_telegram(note)
+ 
     DATA.parent.mkdir(exist_ok=True)
     site = cfg.get("site") or {}
     DATA.write_text(json.dumps({"updated": NOW.isoformat(),
                                 "site": {"telegram": site.get("telegram_link") or None},
                                 "items": store}, ensure_ascii=False, indent=1))
     log(f"Saved {len(store)} items -> {DATA.relative_to(ROOT)}")
-
-
+    if not ok:
+        # Data is saved above; failing here makes GitHub mark the run red and email you.
+        sys.exit("Telegram send failed: check TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID secrets.")
+ 
+ 
 if __name__ == "__main__":
     main()
+ 
