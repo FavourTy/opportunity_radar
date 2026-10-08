@@ -15,6 +15,7 @@ site:
 
 # Minimum LLM relevance score (0-10) for an item to be sent to Telegram.
 min_score: 6
+heartbeat: true
 # Max items per Telegram digest
 max_per_digest: 15
 # Days to keep items on the dashboard
