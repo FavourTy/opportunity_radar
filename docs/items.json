@@ -1,9 +1,23 @@
 {
- "updated": "2026-10-10T12:27:08.134053+00:00",
+ "updated": "2026-10-10T20:33:39.689596+00:00",
  "site": {
   "telegram": null
  },
  "items": [
+  {
+   "id": "72e5d5622046832c",
+   "category": "articles",
+   "source": "Roboflow Blog",
+   "title": "Line Scan Camera Defect Detection",
+   "url": "https://roboflow.com/blog/line-scan-cameras",
+   "published": "2026-09-09T19:26:00+00:00",
+   "raw": "How to tile line scan strips, run RF-DETR on each slice, and merge detections across tile boundaries.",
+   "first_seen": "2026-10-10T20:33:39.689596+00:00",
+   "score": 3,
+   "summary": "How to tile line scan strips, run RF-DETR on each slice, and merge detections across tile boundaries.",
+   "deadline": null,
+   "fully_funded": null
+  },
   {
    "id": "eb309470fab794bd",
    "category": "conferences",
