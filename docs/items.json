@@ -1,9 +1,37 @@
 {
- "updated": "2026-10-30T21:28:49.569057+00:00",
+ "updated": "2026-10-31T12:20:07.609339+00:00",
  "site": {
   "telegram": null
  },
  "items": [
+  {
+   "id": "792e266212657964",
+   "category": "conferences",
+   "source": "WikiCFP Machine Learning",
+   "title": "JoNN 2026 : Inaugural Issue of Journal of Niche NLP",
+   "url": "http://www.wikicfp.com/cfp/servlet/event.showcfp?eventid=204085&copyownerid=116977",
+   "published": "2026-10-31T12:20:07+00:00",
+   "raw": "Inaugural Issue of Journal of Niche NLP",
+   "first_seen": "2026-10-31T12:20:07.609339+00:00",
+   "score": 3,
+   "summary": "Inaugural Issue of Journal of Niche NLP",
+   "deadline": null,
+   "fully_funded": null
+  },
+  {
+   "id": "f13522faab57d108",
+   "category": "conferences",
+   "source": "WikiCFP Machine Learning",
+   "title": "FL@FM-TheWebConf 2027 : International Workshop on Federated Foundation Models for the Web 2027",
+   "url": "http://www.wikicfp.com/cfp/servlet/event.showcfp?eventid=204077&copyownerid=80806",
+   "published": "2026-10-31T12:20:07+00:00",
+   "raw": "International Workshop on Federated Foundation Models for the Web 2027 [Dublin, Ireland] [May 11, 2027 - May 11, 2027]",
+   "first_seen": "2026-10-31T12:20:07.609339+00:00",
+   "score": 3,
+   "summary": "International Workshop on Federated Foundation Models for the Web 2027 [Dublin, Ireland] [May 11, 2027 - May 11, 2027]",
+   "deadline": null,
+   "fully_funded": null
+  },
   {
    "id": "f9f539c49b1ba700",
    "category": "scholarships",
