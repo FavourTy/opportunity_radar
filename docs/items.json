@@ -1,9 +1,65 @@
 {
- "updated": "2026-10-31T12:20:07.609339+00:00",
+ "updated": "2026-10-31T20:27:00.967897+00:00",
  "site": {
   "telegram": null
  },
  "items": [
+  {
+   "id": "9bde88c3d9a893dc",
+   "category": "scholarships",
+   "source": "Opportunity Desk",
+   "title": "Mastercard Foundation Scholars Program at Sciences Po 2027 (Fully-funded)",
+   "url": "https://opportunitydesk.org/2026/10/31/mastercard-foundation-scholars-program-at-sciences-po-2027/",
+   "published": "2026-10-31T14:24:45+00:00",
+   "raw": "Deadline: December 14, 2026 Applications are open for the Mastercard Foundation Scholars Program at Sciences Po 2027. The Mastercard Foundation Scholars Program at Sciences Po is designed for students from the African continent who wish to pursue a two-year Master’s degree at Sciences Po. Across its various Master’s programmes, each Graduate School offers students a [...]",
+   "first_seen": "2026-10-31T20:27:00.967897+00:00",
+   "score": 4,
+   "summary": "Deadline: December 14, 2026 Applications are open for the Mastercard Foundation Scholars Program at Sciences Po 2027. The Mastercard Foundation Scholars Program at Sciences Po is designed for students from the African co",
+   "deadline": null,
+   "fully_funded": false
+  },
+  {
+   "id": "c86c8db805a42b2d",
+   "category": "scholarships",
+   "source": "Opportunity Desk",
+   "title": "IREX Community Solutions Program (CSP) 2026-2027 (Fully-funded)",
+   "url": "https://opportunitydesk.org/2026/10/31/irex-community-solutions-program-2027/",
+   "published": "2026-10-31T13:19:35+00:00",
+   "raw": "Deadline: November 24, 2026 Applications are open for the IREX Community Solutions Program (CSP) 2026-2027. The Community Solutions Program (CSP) is a professional leadership development program for experienced, results-oriented community leaders working to advance locally driven regional economic growth and community prosperity. CSP equips participants with practical leadership and technical skills, professional connections, and hands-on [...]",
+   "first_seen": "2026-10-31T20:27:00.967897+00:00",
+   "score": 3,
+   "summary": "Deadline: November 24, 2026 Applications are open for the IREX Community Solutions Program (CSP) 2026-2027. The Community Solutions Program (CSP) is a professional leadership development program for experienced, results-",
+   "deadline": null,
+   "fully_funded": false
+  },
+  {
+   "id": "f30fc187881c59e8",
+   "category": "scholarships",
+   "source": "Opportunity Desk",
+   "title": "MIT Summer Research Program (MSRP) 2027 (stipend available)",
+   "url": "https://opportunitydesk.org/2026/10/31/mit-summer-research-program-2027/",
+   "published": "2026-10-31T12:56:57+00:00",
+   "raw": "Deadline: January 19, 2027 Applications are open for the MIT Summer Research Program (MSRP) 2027. The MIT Summer Research Program (MSRP) is a competitive summer initiative designed to promote the value of graduate education, broaden participation in the research enterprise, and prepare and recruit exceptional undergraduate students for graduate study at MIT and beyond. Launched [...]",
+   "first_seen": "2026-10-31T20:27:00.967897+00:00",
+   "score": 3,
+   "summary": "Deadline: January 19, 2027 Applications are open for the MIT Summer Research Program (MSRP) 2027. The MIT Summer Research Program (MSRP) is a competitive summer initiative designed to promote the value of graduate educat",
+   "deadline": null,
+   "fully_funded": false
+  },
+  {
+   "id": "e147a667384f1d8b",
+   "category": "scholarships",
+   "source": "Opportunity Desk",
+   "title": "Mastercard Foundation Scholars Program at American University of Cairo (AUC) Spring 2027",
+   "url": "https://opportunitydesk.org/2026/10/31/mastercard-foundation-scholars-program-at-auc-2027/",
+   "published": "2026-10-31T12:38:12+00:00",
+   "raw": "Deadline: November 2, 2026 Applications for the Mastercard Foundation Scholars Program at American University of Cairo (AUC) 2027 are now open. The Mastercard Foundation Scholars Program at American University of Cairo (AUC) provides full scholarships and comprehensive support to talented young people from across Africa, enabling them to pursue higher education while developing their leadership [...]",
+   "first_seen": "2026-10-31T20:27:00.967897+00:00",
+   "score": 5,
+   "summary": "Deadline: November 2, 2026 Applications for the Mastercard Foundation Scholars Program at American University of Cairo (AUC) 2027 are now open. The Mastercard Foundation Scholars Program at American University of Cairo (",
+   "deadline": null,
+   "fully_funded": false
+  },
   {
    "id": "792e266212657964",
    "category": "conferences",
