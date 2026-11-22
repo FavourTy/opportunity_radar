@@ -1,9 +1,23 @@
 {
- "updated": "2026-11-22T14:29:46.724673+00:00",
+ "updated": "2026-11-22T22:27:29.674556+00:00",
  "site": {
   "telegram": null
  },
  "items": [
+  {
+   "id": "0f4e866b94e469b9",
+   "category": "articles",
+   "source": "Roboflow Blog",
+   "title": "Computer Vision API Pricing: What You Can Do Free, and What It Costs as You Scale",
+   "url": "https://roboflow.com/blog/computer-vision-api-pricing",
+   "published": "2026-11-22T18:03:30+00:00",
+   "raw": "Computer vision API pricing from $0: test 80,000 images free on Roboflow, pilot for $39/month, and get volume discounts up to 80% at scale.",
+   "first_seen": "2026-11-22T22:27:29.674556+00:00",
+   "score": 4,
+   "summary": "Computer vision API pricing from $0: test 80,000 images free on Roboflow, pilot for $39/month, and get volume discounts up to 80% at scale.",
+   "deadline": null,
+   "fully_funded": null
+  },
   {
    "id": "e04fef67a13405dd",
    "category": "conferences",
