@@ -1,9 +1,23 @@
 {
- "updated": "2026-11-21T22:10:18.465030+00:00",
+ "updated": "2026-11-22T14:29:46.724673+00:00",
  "site": {
   "telegram": null
  },
  "items": [
+  {
+   "id": "e04fef67a13405dd",
+   "category": "conferences",
+   "source": "WikiCFP Machine Learning",
+   "title": "CHIL 2027 : AHLI Conference on Health, Inference, and Learning",
+   "url": "http://www.wikicfp.com/cfp/servlet/event.showcfp?eventid=204406&copyownerid=3032",
+   "published": "2026-11-22T14:29:46+00:00",
+   "raw": "AHLI Conference on Health, Inference, and Learning [Chicago, IL, USA] [Jun 28, 2027 - Jun 30, 2027]",
+   "first_seen": "2026-11-22T14:29:46.724673+00:00",
+   "score": 3,
+   "summary": "AHLI Conference on Health, Inference, and Learning [Chicago, IL, USA] [Jun 28, 2027 - Jun 30, 2027]",
+   "deadline": null,
+   "fully_funded": null
+  },
   {
    "id": "4586cd3cb56b06ef",
    "category": "scholarships",
