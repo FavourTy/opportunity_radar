@@ -1,9 +1,69 @@
 {
- "updated": "2026-11-26T16:49:41.482161+00:00",
+ "updated": "2026-11-27T00:59:57.988545+00:00",
  "site": {
   "telegram": null
  },
  "items": [
+  {
+   "id": "bd22af6927836ae8",
+   "category": "papers",
+   "source": "Hugging Face Daily Papers",
+   "title": "CARE-3D: Reinforcement Learning for Evidence Grounded Agentic Reasoning in Situated 3D Scenes",
+   "url": "https://huggingface.co/papers/2611.29969",
+   "published": "2026-11-22T19:00:00.000Z",
+   "raw": "Situated 3D reasoning requires embodied agents to interpret objects, scene geometry, and viewpoint dependent spatial relations. Existing methods learn grounded interactions from supervised traces, but largely imitate prescribed evidence acquisition patterns rather than optimizing the support that the returned evidence provides for the correct answer. Moreover, outcome rewards provide limited credit for intermediate tool choices and may leave infrequent tools underexplored. An effective agent should instead adaptively decide what to ground, which tool to invoke, and how to assess the utility of",
+   "upvotes": 0,
+   "first_seen": "2026-11-27T00:59:57.988545+00:00",
+   "score": 3,
+   "summary": "Situated 3D reasoning requires embodied agents to interpret objects, scene geometry, and viewpoint dependent spatial relations. Existing methods learn grounded interactions from supervised traces, but largely imitate pre",
+   "deadline": null,
+   "fully_funded": null
+  },
+  {
+   "id": "26ee46e166a7b4bc",
+   "category": "papers",
+   "source": "Hugging Face Daily Papers",
+   "title": "Evaluating Memanto on DolphinBench for AI Agents",
+   "url": "https://huggingface.co/papers/2611.28231",
+   "published": "2026-11-19T19:00:00.000Z",
+   "raw": "Memory benchmarks built on question answering tell an agent which fact to recall. Workplace requests often leave that need implicit: to post an update in the team's channel, an agent must work out which channel from earlier interactions and use it in a tool call. We evaluate Memanto, a memory agent that ranks memories with an information-theoretic relevance score, on DolphinBench, which tests memory through 600 simulated workplace tasks, each validated as requiring memory. Running in the Hermes agent harness with GPT-6-Luna and at most 6 iterations per conversation, Memanto completes 503 tasks",
+   "upvotes": 2,
+   "first_seen": "2026-11-27T00:59:57.988545+00:00",
+   "score": 3,
+   "summary": "Memory benchmarks built on question answering tell an agent which fact to recall. Workplace requests often leave that need implicit: to post an update in the team's channel, an agent must work out which channel from earl",
+   "deadline": null,
+   "fully_funded": null
+  },
+  {
+   "id": "f86156255d97889c",
+   "category": "papers",
+   "source": "Hugging Face Daily Papers",
+   "title": "Look Back: Reinforcement Learning with Counterfactual World Models",
+   "url": "https://huggingface.co/papers/2611.29259",
+   "published": "2026-11-21T19:00:00.000Z",
+   "raw": "Agents in complex, stochastic environments must contend with dynamics that can exceed their world models' predictive capacity and randomness that obscure the consequences of their actions. We hypothesize that, compared to imagining entirely new trajectories in such complex environments, it can be easier to transform observed trajectories with alternative actions. Counterfactual world models condition on observations to predict alternative outcomes under the same underlying environmental randomness, using experience as a reference for predicting action-dependent changes. We present a policy gra",
+   "upvotes": 0,
+   "first_seen": "2026-11-27T00:59:57.988545+00:00",
+   "score": 3,
+   "summary": "Agents in complex, stochastic environments must contend with dynamics that can exceed their world models' predictive capacity and randomness that obscure the consequences of their actions. We hypothesize that, compared t",
+   "deadline": null,
+   "fully_funded": null
+  },
+  {
+   "id": "34827bc7568478ab",
+   "category": "papers",
+   "source": "Hugging Face Daily Papers",
+   "title": "Single-Database Rewards Are Hackable: Counterfactual Execution for Trustworthy Text-to-SQL RL",
+   "url": "https://huggingface.co/papers/2611.34363",
+   "published": "2026-11-24T19:00:00.000Z",
+   "raw": "Reinforcement learning (RL) for text-to-SQL agents pays a query when its result matches the reference on one database. However, a wrong query can match by luck when the data lack the rows that expose its bug. We study a counterfactual-database (CF) reward that also runs the final query on a few hidden, code-generated copies of the database and pays only if all results match (strict form) or by the share matched (mean form). On 1,302 synthetic audit questions, the strict form lowers the share of buggy queries paid in full from 29.5% to 16.8% and of reward hacks from 54.1% to 1.9%, rejecting 0 o",
+   "upvotes": 4,
+   "first_seen": "2026-11-27T00:59:57.988545+00:00",
+   "score": 3,
+   "summary": "Reinforcement learning (RL) for text-to-SQL agents pays a query when its result matches the reference on one database. However, a wrong query can match by luck when the data lack the rows that expose its bug. We study a ",
+   "deadline": null,
+   "fully_funded": null
+  },
   {
    "id": "76386d039828394e",
    "category": "scholarships",
