@@ -1,9 +1,37 @@
 {
- "updated": "2026-11-28T00:31:35.974404+00:00",
+ "updated": "2026-11-28T15:27:24.012122+00:00",
  "site": {
   "telegram": null
  },
  "items": [
+  {
+   "id": "7c76dbc8e7e1d052",
+   "category": "scholarships",
+   "source": "Opportunity Desk",
+   "title": "AI Diffusion Pathways for Agriculture (AIDPA) 2027",
+   "url": "https://opportunitydesk.org/2026/11/28/ai-diffusion-pathways-for-agriculture-2027/",
+   "published": "2026-11-28T13:35:25+00:00",
+   "raw": "Deadline: December 15, 2026 Applications are open for the AI Diffusion Pathways for Agriculture (AIDPA) 2027. The AI Diffusion Pathways for Agriculture (AIDPA) is a six-month programme by the AI Hub for Sustainable Development (co-led by the Ministry of Enterprises and Made in Italy and the United Nations Development Programme), with DeepLeaf as delivery and [...]",
+   "first_seen": "2026-11-28T15:27:24.012122+00:00",
+   "score": 3,
+   "summary": "Deadline: December 15, 2026 Applications are open for the AI Diffusion Pathways for Agriculture (AIDPA) 2027. The AI Diffusion Pathways for Agriculture (AIDPA) is a six-month programme by the AI Hub for Sustainable Devel",
+   "deadline": null,
+   "fully_funded": false
+  },
+  {
+   "id": "980ee0c579503a4a",
+   "category": "conferences",
+   "source": "WikiCFP Machine Learning",
+   "title": "IDEAS 2027 : National Conference · Oran, Algeria - Innovation in Data Engineering & Artificial Intelligence IDEAS'2027 — Second Edition",
+   "url": "http://www.wikicfp.com/cfp/servlet/event.showcfp?eventid=204583&copyownerid=56745",
+   "published": "2026-11-28T15:27:24+00:00",
+   "raw": "National Conference · Oran, Algeria - Innovation in Data Engineering & Artificial Intelligence IDEAS'2027 — Second Edition [Algeria] [Jul 4, 2027 - Jul 5, 2027]",
+   "first_seen": "2026-11-28T15:27:24.012122+00:00",
+   "score": 3,
+   "summary": "National Conference · Oran, Algeria - Innovation in Data Engineering & Artificial Intelligence IDEAS'2027 — Second Edition [Algeria] [Jul 4, 2027 - Jul 5, 2027]",
+   "deadline": null,
+   "fully_funded": null
+  },
   {
    "id": "21bf06c269cfe9c3",
    "category": "scholarships",
